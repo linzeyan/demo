@@ -1,13 +1,10 @@
 package main
 
-import (
-	"flag"
-
-	"github.com/gin-gonic/gin"
-)
+import "flag"
 
 var (
 	args = flag.String("a", "", "Specify return string")
+	port = flag.Int("p", 80, "Specify listen port")
 )
 
 func main() {
@@ -15,10 +12,9 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, *args)
-	})
+	if *args == "" {
+		*args = "Hello, World!"
+	}
 
-	r.Run("0.0.0.0:80")
+	runServer(*args, *port)
 }
