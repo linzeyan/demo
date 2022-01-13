@@ -9,4 +9,4 @@ RUN upx -9 -o /go/bin/demo demo
 FROM gcr.io/distroless/base-debian11:nonroot
 COPY --from=builder /go/bin/demo /
 EXPOSE 80
-CMD ["/demo"]
+ENTRYPOINT ["/demo"]
