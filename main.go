@@ -15,10 +15,13 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
+	if *args == "" {
+		*args = "Hello, World!"
+	}
+
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
+	r.NoRoute(func(c *gin.Context) {
 		c.String(200, *args)
 	})
-
 	r.Run("0.0.0.0:80")
 }
