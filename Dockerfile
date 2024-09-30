@@ -1,13 +1,14 @@
-FROM golang:1.17-alpine3.14 AS builder
+FROM --platform=$TARGETPLATFORM golang:1.17-alpine3.14 AS builder
 WORKDIR /go/src/app
 COPY . .
-RUN apk add upx
 RUN go mod vendor
-RUN CGO_ENABLED=0 go build -trimpath -mod vendor -o demo ./main.go
-RUN upx -9 -o /go/bin/demo demo
+ARG TARGETOS TARGETARCH
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -mod vendor -o demo ./main.go
 
-FROM gcr.io/distroless/base-debian11
-COPY --from=builder /go/bin/demo /
+FROM --platform=$TARGETPLATFORM gcr.io/distroless/base-debian11:debug
+COPY --from=builder /go/src/app/demo /
 EXPOSE 80
-ENTRYPOINT ["/demo"]
+ENTRYPOINT ["/demo", "-a"]
+CMD [""]
 # docker run -d -p 80:80 zeyanlin/gin-demo '-a' 'aa'
+# docker buildx build --push --platform linux/arm64,linux/amd64 -t zeyanlin/gin-demo:dev-latest .
