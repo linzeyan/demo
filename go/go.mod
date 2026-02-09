@@ -6,7 +6,7 @@ require (
 	github.com/beego/beego/v2 v2.3.8
 	github.com/gin-gonic/gin v1.11.0
 	github.com/go-chi/chi/v5 v5.2.4
-	github.com/gofiber/fiber/v2 v2.52.10
+	github.com/gofiber/fiber/v2 v2.52.11
 	github.com/gogf/gf/v2 v2.9.8
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/kataras/iris/v12 v12.2.11
